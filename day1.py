@@ -14,26 +14,29 @@ def map_input_to_nested_arrays(input):
   
   return elfs
 
-def sum_array(elf):
-  sum = 0
-  for snack in elf:
-    sum += snack
-  return sum
+def update_top_elfs(elfs, calories):
+  new_calories = calories
+  i = 0
+  while i < len(elfs):
+    if new_calories > elfs[i]:
+      tmp = elfs[i]
+      elfs[i] = new_calories
+      new_calories = tmp 
+    i+=1
+  return elfs
 
-def solveDay():
+def solve_day():
   input = open('input1.txt', 'r')
   elfs = map_input_to_nested_arrays(input)
 
-  highest_calories = 0
+  top_elfs = [0,0,0]
 
   for elf in elfs:
-    calories = sum_array(elf)
-    if calories > highest_calories:
-      highest_calories = calories
-      print(elf)
+    calories = sum(elf)
+    update_top_elfs(top_elfs, calories)
 
   input.close()
 
-  print(highest_calories)
+  return sum(top_elfs)
 
-solveDay()
+print(solve_day())
