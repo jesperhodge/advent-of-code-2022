@@ -1,26 +1,38 @@
 shape_scores = {
-  'X': 1,
-  'Y': 2,
-  'Z': 3
+  'A': 1,
+  'B': 2,
+  'C': 3
 }
 
 outcomes = {
   'A': {
-    'X': 3,
-    'Y': 6,
-    'Z': 0
+    'A': 0,
+    'B': 1,
+    'C': -1
   },
   'B': {
-    'X': 0,
-    'Y': 3,
-    'Z': 6
+    'A': -1,
+    'B': 0,
+    'C': 1
   },
   'C': {
-    'X': 6,
-    'Y': 0,
-    'Z': 3
+    'A': 1,
+    'B': -1,
+    'C': 0
   }
 }
+
+outcome_points = [3,6,0]
+
+def points_from_outcome(opponent, you):
+  outcome = outcomes[opponent][you]
+  return outcome_points[outcome]
+
+def calculate_points(row):
+  opponent = row[0]
+  you = row[2]
+
+  return get_shape_scores(opponent, you) + points_from_outcome(opponent, you)
 
 def solve_day():
   input = open('input2.txt', 'r')
@@ -28,18 +40,10 @@ def solve_day():
   result = 0
 
   for row in input:
-    opponent = row[0]
-    you = row[2]
-
-    result += shape_scores[you]
-    result += outcomes[opponent][you]
-
-
-    print(result)
-  
+    result += calculate_points(row)
 
   input.close()
 
-  return 'day 2, lets go!'
+  return result
 
 print(solve_day())
